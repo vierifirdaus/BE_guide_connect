@@ -1,17 +1,18 @@
 import User from "../models/UserModel.js";
 import bcrypt from "bcrypt";
+import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-export const getUsers = async (req, res) => {
+export const getUsers = async (req: Request, res: Response) => {
     try {
-        const users = await User.find();
+        const users = await User.find()
         res.status(200).json(users);
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        res.status(error).json({ message: error.message });
     }
 }
 
-export const getUserById = async (req, res) => {
+export const getUserById = async (req: Request, res: Response) => {
     try {
         const user = await User.findById(req.params.id);
         res.status(200).json(user);
@@ -20,7 +21,7 @@ export const getUserById = async (req, res) => {
     }
 }
 
-export const register = async (req, res) => {
+export const register = async (req: Request, res: Response) => {
     const {name, username, password, confPassword} = req.body;
     if(password !== confPassword){
         res.status(400).json({message: "Password not match"});
@@ -42,7 +43,7 @@ export const register = async (req, res) => {
     }
 }
 
-export const login = async (req, res) => {
+export const login = async (req: Request, res: Response) => {
     try{
         const {username, password} = req.body;
         const user = await User.findOne({username: username});
@@ -61,7 +62,7 @@ export const login = async (req, res) => {
 
 }
 
-export const updateUser = async (req, res) => {
+export const updateUser = async (req: Request, res: Response) => {
     const {name, username, password} = req.body;
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
