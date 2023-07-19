@@ -1,5 +1,5 @@
 export type Progress = {
-    id: string
+    userId: string
     guideId: string
     currentStep: number
     totalStep: number
